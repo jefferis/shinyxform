@@ -20,4 +20,10 @@ shinyServer(function(input, output) {
     output$xform <- reactiveText(function() {
         paste(input$from,sep="->",input$to)
         })
+    output$downloadResults <- downloadHandler(
+        filename = function() {  paste('transformed-', Sys.Date(), '.txt', sep='') },
+        content = function(file) {
+          write.table(xformed_points(), file, col.names=TRUE,row.names=FALSE)
+        }
+      )
 })

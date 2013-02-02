@@ -27,6 +27,7 @@ shinyUI(pageWithSidebar(
       h4("Transformation:"),
       textOutput('xform'),
       h4("Transformed points:"),
-      tableOutput('view')
+      tableOutput('view'),
+      downloadButton('downloadResults', 'Download Transformed Points')
       )
 ))
