@@ -22,7 +22,8 @@ shinyUI(pageWithSidebar(
 
   mainPanel(
       h4("Input points:"),
-      textInput('input_points', '3D coords (columnwise)', value = "1 2 3"),
+      HTML('<textarea id="input_points" rows="16" cols=60>1 2 3</textarea>'),
+      # textInput('', '3D coords (columnwise)', value = "1 2 3"),
       h4("Transformation:"),
       textOutput('xform'),
       h4("Transformed points:"),
