@@ -13,6 +13,9 @@ shinyServer(function(input, output) {
         }
         pts
       })
+    output$scriptloc <-reactiveText(function() {
+        dirname(attr(body(function() {}),'srcfile')$filename)})
+    
 
     output$view <- reactiveTable(function() {
         head(xformed_points(),5)

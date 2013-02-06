@@ -22,6 +22,7 @@ shinyUI(pageWithSidebar(
     ),
 
   mainPanel(
+      textOutput("scriptloc"),
       h4("Input points:"),
       HTML('<textarea id="input_points" rows="16" cols=60>1 2 3</textarea>'),
       # textInput('', '3D coords (columnwise)', value = "1 2 3"),
