@@ -3,7 +3,8 @@ library(shiny)
 templateList=list("T1 (Yu et al 2010, Dickson, IMP)" = "T1", 
        "IS2 (Cachero, Ostrovsky et al 2010, Jefferis, MRC LMB)" = "IS2", 
        "Cell07 (Jefferis, Potter 2007, Jefferis/Luo, Cambridge/Stanford)" = "Cell07",
-       "FCWB (Ostrovsky/Costa in prep, Jefferis, MRC LMB)" = "FCWB")
+       "FCWB (Ostrovsky/Costa in prep, Jefferis, MRC LMB)" = "FCWB",
+       "JFRC (HHMI/VFB)" = "JFRC")
 
 # Define UI for miles per gallon application
 shinyUI(pageWithSidebar(
