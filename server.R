@@ -40,8 +40,10 @@ shinyServer(function(input, output) {
             xpts=transformedPoints(xyzs=pts[,1:3],warpfile=reglist$reg,
                 transforms='warp',gregxoptions='',
                 direction=ifelse(reglist$inverse,'inverse','forward'))$warp
-            if(ncol(pts)==4)
-            xpts=cbind(xpts,pts[,4])
+            if(ncol(pts)==4){
+                xpts=cbind(xpts,pts[,4])
+                colnames(xpts)=colnames(pts)
+            }
         } else xpts=pts
         xpts
       })
