@@ -16,8 +16,8 @@ shinyUI(pageWithSidebar(
   # and to specify whether outliers should be included
   sidebarPanel(
 
-    selectInput("from", "from:",templateList,selected="FCWB"),
-    selectInput("to", "to:",templateList,selected="JFRC2"),
+    selectInput("from", "from:",templateList,selected=names(which(templateList=="FCWB"))),
+    selectInput("to", "to:",templateList,selected=names(which(templateList=="JFRC2"))),
     submitButton("Transform")
     ),
 
