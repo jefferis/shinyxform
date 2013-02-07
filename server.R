@@ -6,15 +6,24 @@ source(getOption('gjanalysissuite.startup'))
 shinyServer(function(input, output) {
     
     select_transform<-reactive(function(){
+        rval=list(reg=NA,inverse=TRUE)
         RegDir=file.path(dirname(attr(body(function() {}),'srcfile')$filename),'BridgingRegistrations')
-        reg=file.path(RegDir,paste(input$to,sep="","_",input$from,".list"))
-        if(file.exists(reg)) return(reg)
-        else {
-            return(paste("Reg not found:",reg))
+        rval$reg=file.path(RegDir,paste(input$to,sep="","_",input$from,".list"))
+        
+        if(!file.exists(rval$reg)) {
+            # try and look for inverse
+            ireg=file.path(RegDir,paste(input$from,sep="","_",input$to,".list"))
+            if(file.exists(ireg)) {
+                rval$reg=ireg
+                rval$inverse=FALSE
+            } else {
+                rval$reg=paste("Reg not found:",rval$reg)
+            }
         }
+        rval
     })
     output$regpath<-reactiveText(function(){
-        select_transform()
+        select_transform()$reg
     })
     
     xformed_points <- reactive(function() {
@@ -26,9 +35,11 @@ shinyServer(function(input, output) {
         } else {
             stop("Data must have 3 or 4 columns")
         }
-        reg=select_transform()
+        reglist=select_transform()
         if(!is.na(reg) || input$to==input$from){
-            xpts=transformedPoints(xyzs=pts[,1:3],warpfile=reg,transforms='warp',gregxoptions='')$warp
+            xpts=transformedPoints(xyzs=pts[,1:3],warpfile=reglist$reg,
+                transforms='warp',gregxoptions='',
+                direction=ifelse(reglist$inverse,'inverse','forward'))$warp
             if(ncol(pts)==4)
             xpts=cbind(xpts,pts[,4])
         } else xpts=pts
