@@ -6,11 +6,11 @@ templateList=list("T1 (Yu et al 2010, Dickson, IMP)" = "T1",
        "FCWB (Ostrovsky/Costa in prep, Jefferis, MRC LMB)" = "FCWB",
        "JFRC2 (HHMI/VFB)" = "JFRC2")
 
-# Define UI for miles per gallon application
+# Define UI
 shinyUI(pageWithSidebar(
 
   # Application title
-  headerPanel("Transform between template brain coordinates"),
+  headerPanel("Transform between Drosophila template brain coordinates"),
 
   # Sidebar with controls to select the variable to plot against mpg
   # and to specify whether outliers should be included
