@@ -6,7 +6,7 @@ source(getOption('gjanalysissuite.startup'))
 shinyServer(function(input, output) {
     
     select_transform<-reactive(function(){
-        rval=list(reg=NA,inverse=TRUE)
+        rval=list(reg=NA,inverse=TRUE,exists=TRUE)
         RegDir=file.path(dirname(attr(body(function() {}),'srcfile')$filename),'BridgingRegistrations')
         rval$reg=file.path(RegDir,paste(input$to,sep="","_",input$from,".list"))
         
@@ -17,13 +17,18 @@ shinyServer(function(input, output) {
                 rval$reg=ireg
                 rval$inverse=FALSE
             } else {
-                rval$reg=paste("Reg not found:",rval$reg)
+                rval$exists=FALSE
             }
         }
         rval
     })
     output$regpath<-reactiveText(function(){
-        select_transform()$reg
+        reglist=select_transform()
+        if(!reglist$exists){
+            if(input$from==input$to)
+                return('identity transform')
+            return(paste("Reg not found:",reglist$reg))
+        } else reglist$reg
     })
     
     xformed_points <- reactive(function() {
@@ -36,7 +41,7 @@ shinyServer(function(input, output) {
             stop("Data must have 3 or 4 columns")
         }
         reglist=select_transform()
-        if(!is.na(reg) || input$to==input$from){
+        if(reglist$exists){
             xpts=transformedPoints(xyzs=pts[,1:3],warpfile=reglist$reg,
                 transforms='warp',gregxoptions='',
                 direction=ifelse(reglist$inverse,'inverse','forward'))$warp
